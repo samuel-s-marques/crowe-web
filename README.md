@@ -9,15 +9,14 @@ A Crowe está iniciando um novo processo seletivo e solicitou ao setor de Tecnol
 - [ ] Vuetable-2
 
 ## TODO
-- [ ] Front-end
-  - [ ] Cadastro
-  - [ ] Listagem
-  - [ ] Exclusão
-  - [ ] Exibição
-  - [ ] Edição
-  - [ ] Validações
-  - [ ] Rotas
-  - [x] API [ViaCep](https://viacep.com.br/)
+- [ ] Cadastro
+- [ ] Listagem
+- [ ] Exclusão
+- [ ] Exibição
+- [ ] Edição
+- [ ] Validações
+- [ ] Rotas
+- [x] API [ViaCep](https://viacep.com.br/)
 
 ## Executando o projeto
 Utilize o **yarn** ou o **npm install** para instalar as dependências do projeto.
