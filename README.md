@@ -14,7 +14,7 @@ A Crowe está iniciando um novo processo seletivo e solicitou ao setor de Tecnol
 - [x] Listagem
   - [ ] Paginação
 - [x] Exclusão
-  - [ ] Confirmar exclusão
+  - [x] Confirmar exclusão
 - [x] Exibição
 - [x] Edição
 - [x] Validações
