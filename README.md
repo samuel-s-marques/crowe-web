@@ -8,16 +8,18 @@ A Crowe está iniciando um novo processo seletivo e solicitou ao setor de Tecnol
 - [ ] Axios
 - [ ] Bootstrap
 - [ ] Vue-The-Mask
+- [ ] VeeValidate
 
 ## TODO
 - [x] Cadastro
+  - [x] Adicionar CPF
 - [x] Listagem
-  - [ ] Paginação
 - [x] Exclusão
   - [x] Confirmar exclusão
 - [x] Exibição
 - [x] Edição
 - [x] Validações
+- [x] /404
 - [x] Rotas
 - [x] API [ViaCep](https://viacep.com.br/)
 
