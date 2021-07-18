@@ -11,12 +11,14 @@ A Crowe está iniciando um novo processo seletivo e solicitou ao setor de Tecnol
 
 ## TODO
 - [x] Cadastro
-- [ ] Listagem
-- [ ] Exclusão
-- [ ] Exibição
-- [ ] Edição
+- [x] Listagem
+  - [ ] Paginação
+- [x] Exclusão
+  - [ ] Confirmar exclusão
+- [x] Exibição
+- [x] Edição
 - [x] Validações
-- [ ] Rotas
+- [x] Rotas
 - [x] API [ViaCep](https://viacep.com.br/)
 
 ## Executando o projeto
