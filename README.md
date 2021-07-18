@@ -5,16 +5,17 @@ A Crowe está iniciando um novo processo seletivo e solicitou ao setor de Tecnol
 
 ## Tecnologias
 - [ ] Vue.js
-- [ ] axios
-- [ ] Vuetable-2
+- [ ] Axios
+- [ ] Bootstrap
+- [ ] Vue-The-Mask
 
 ## TODO
-- [ ] Cadastro
+- [x] Cadastro
 - [ ] Listagem
 - [ ] Exclusão
 - [ ] Exibição
 - [ ] Edição
-- [ ] Validações
+- [x] Validações
 - [ ] Rotas
 - [x] API [ViaCep](https://viacep.com.br/)
 
