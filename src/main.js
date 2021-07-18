@@ -4,9 +4,16 @@ import VueRouter from 'vue-router'
 import axios from 'axios'
 import Routes from './routes'
 import VueTheMask from 'vue-the-mask'
-
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import PortalVue from 'portal-vue'
+import { 
+	ValidationProvider,
+	ValidationObserver,
+	extend,
+	localize
+} from 'vee-validate'
+import pt_BR from 'vee-validate/dist/locale/pt_BR.json'
+import * as rules from 'vee-validate/dist/rules'
 
 // arquivos css
 import 'bootstrap/dist/css/bootstrap.css'
@@ -22,6 +29,16 @@ const router = new VueRouter({
 	routes: Routes,
 	mode: 'history'
 })
+
+// instala as regras e localização do VeeValidate
+Object.keys(rules).forEach(rule => {
+	extend(rule, rules[rule])
+})
+
+localize('pt_BR', pt_BR)
+
+Vue.component('ValidationProvider', ValidationProvider)
+Vue.component('ValidationObserver', ValidationObserver)
 
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
