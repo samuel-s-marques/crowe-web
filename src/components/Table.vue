@@ -131,30 +131,47 @@
 				this.$router.push('/editar/' + item.id)
 			},
 			deletar (item) {
-				this.$axios.delete('/applicants/' + item.id)
-				.then(response => {
-					if (response.statusText === 'OK') {
-						// força refresh na tabela
-						this.$root.$emit('bv::refresh::table', 'minha-tabela')
-
-						// emite um toast/notificação de sucesso
-						this.$bvToast.toast('Candidato apagado!', {
-							title: 'Sucesso!',
-							variant: 'success',
-							appendToast: false
+				this.$bvModal.msgBoxConfirm(`Você deseja mesmo apagar o(a) candidato(a) ${item.nome}, do ID ${item.id}?`, {
+					title: 'Por favor, confirme',
+					okVariant: 'danger',
+					okTitle: 'SIM',
+					cancelTitle: 'NÃO',
+					footerClass: 'p-2',
+					hideHeaderClose: false,
+					centered: true
+				})
+				.then(value => {
+					if (value === true) {
+						this.$axios.delete('/applicants/' + item.id)
+						.then(response => {
+							if (response.statusText === 'OK') {
+								// força refresh na tabela
+								this.$root.$emit('bv::refresh::table', 'minha-tabela')
+		
+								// emite um toast/notificação de sucesso
+								this.$bvToast.toast('Candidato apagado!', {
+									title: 'Sucesso!',
+									variant: 'success',
+									appendToast: false
+								})
+							} else {
+								// emite um toast/notificação de erro
+								this.$bvToast.toast('Não foi possível apagar o candidato!', {
+									title: 'Erro!',
+									variant: 'danger',
+									appendToast: false
+								})
+							}
 						})
-					} else {
-						// emite um toast/notificação de erro
-						this.$bvToast.toast('Não foi possível apagar o candidato!', {
-							title: 'Erro!',
-							variant: 'danger',
-							appendToast: false
+						.catch ((erro) => {
+							console.log(erro)
 						})
 					}
 				})
-				.catch ((erro) => {
-					console.log(erro)
+				.catch(err => {
+					console.log(err)
 				})
+
 			}
 		}
 	}
