@@ -1,27 +1,22 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
-import VueFormulate from '@braid/vue-formulate'
-import VueFormulateExtended from 'vue-formulate-extended'
-import './assets/formulate.css'
-import { pt } from '@braid/vue-formulate-i18n'
 import axios from 'axios'
 import Routes from './routes'
+import VueTheMask from 'vue-the-mask'
 
-Vue.use(VueFormulate, {
-	plugins: [
-		VueFormulateExtended({
-			features: {
-				formEvents: true,
-				textMask: true,
-				enforceNumber: false
-			}
-		}),
-		pt
-	],
-	locale: 'pt',
-})
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import PortalVue from 'portal-vue'
+
+// arquivos css
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+Vue.use(VueTheMask)
 Vue.use(VueRouter)
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
+Vue.use(PortalVue)
 
 const router = new VueRouter({
 	routes: Routes,
