@@ -7,12 +7,23 @@
 				:items="myProvider"
 				:fields="fields"
 				:hover="true"
+				responsive="md"
 			>
 				<template #row-details="row">
 					<b-card>
 						<b-row class="mb-2">
 							<b-col sm="3" class="text-sm"><b>Nome: </b></b-col>
 							<b-col>{{ row.item.nome }}</b-col>
+						</b-row>
+
+						<b-row class="mb-2">
+							<b-col sm="3" class="text-sm"><b>CPF: </b></b-col>
+							<b-col>{{ row.item.cpf }}</b-col>
+						</b-row>
+
+						<b-row class="mb-2">
+							<b-col sm="3" class="text-sm"><b>E-mail: </b></b-col>
+							<b-col>{{ row.item.email }}</b-col>
 						</b-row>
 
 						<b-row class="mb-2">
@@ -58,6 +69,7 @@
 
 				<template #cell(actions)="row">
 					<b-button
+						id="table-button"
 						size="sm"
 						@click="info(row.item)"
 						class="mr-1"
@@ -66,6 +78,7 @@
 					</b-button>
 
 					<b-button
+						id="table-button"
 						size="sm"
 						@click="row.toggleDetails"
 						class="mr-1"
@@ -74,6 +87,7 @@
 					</b-button>
 
 					<b-button
+						id="table-button"
 						size="sm"
 						class="mr-1"
 						@click="deletar(row.item)"
@@ -97,11 +111,12 @@
 
 	export default {
 		data() {
+			// campos mostrados na tabela
 			return {
 				fields: [
 					{ key: 'id', stickyColumn: true, isRowHeader: true, label: 'ID' },
 					{ key: 'nome' },
-					{ key: 'logradouro' },
+					{ key: 'email', 'label': 'E-mail'},
 					{ key: 'cidade' },
 					{ key: 'estado' },
 					{ key: 'cep', label: 'CEP' },
@@ -131,6 +146,7 @@
 				this.$router.push('/editar/' + item.id)
 			},
 			deletar (item) {
+				// abre modal se o usuário apertar no botão de delete
 				this.$bvModal.msgBoxConfirm(`Você deseja mesmo apagar o(a) candidato(a) ${item.nome}, do ID ${item.id}?`, {
 					title: 'Por favor, confirme',
 					okVariant: 'danger',
@@ -141,7 +157,9 @@
 					centered: true
 				})
 				.then(value => {
+					// se a resposta do modal for SIM
 					if (value === true) {
+						// então é enviado requisição para deletar o candidato
 						this.$axios.delete('/applicants/' + item.id)
 						.then(response => {
 							if (response.statusText === 'OK') {
@@ -176,3 +194,11 @@
 		}
 	}
 </script>
+
+<style>
+	@media screen and (max-width: 1200px) {
+		#table-button:not(:first-child) {
+			margin-top: 3px;
+		}
+	}
+</style>
