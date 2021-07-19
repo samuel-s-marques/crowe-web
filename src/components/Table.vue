@@ -19,6 +19,11 @@
 						</b-row>
 
 						<b-row class="mb-2">
+							<b-col sm="3" class="text-sm"><b>Telefone: </b></b-col>
+							<b-col>{{ row.item.telefone }}</b-col>
+						</b-row>
+
+						<b-row class="mb-2">
 							<b-col sm="3" class="text-sm"><b>CPF: </b></b-col>
 							<b-col>{{ row.item.cpf }}</b-col>
 						</b-row>
