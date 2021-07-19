@@ -68,6 +68,7 @@
 										v-model="form.cpf"
 										type="text"
 										:state="getValidationState(validationContext)"
+										@blur.native="handleCPF"
 										aria-describedby="cpf-live-feedback"
 										class="mt-1"
 										v-mask="'###.###.###-##'"
@@ -394,6 +395,7 @@
 
 <script>
 	import Vue from 'vue'
+	import ValidarCPF from '../assets/js/validarCPF.js'
 
 	// importa a Navbar e transforma-a em componente
 	import Navbar from './Navbar.vue'
@@ -437,8 +439,7 @@
 						appendToast: false
 					})
 				})
-				.catch((error) => {
-					console.log(error)
+				.catch(() => {
 					// se der erro, envia toast de erro
 					this.$bvToast.toast('Não foi possível enviar os dados!', {
 						title: 'Erro!',
@@ -498,6 +499,20 @@
 					})
 				} else {
 					this.$bvToast.toast('Escolha um CEP válido!', {
+						title: 'Erro!',
+						toaster: 'b-toaster-top-center',
+						solid: true,
+						variant: 'danger',
+						appendToast: false,
+					})
+				}
+			},
+			// validar CPF
+			handleCPF(event) {
+				const cpf = event.target.value
+
+				if (!ValidarCPF(cpf)) {
+					this.$bvToast.toast('Escolha um CPF válido!', {
 						title: 'Erro!',
 						toaster: 'b-toaster-top-center',
 						solid: true,

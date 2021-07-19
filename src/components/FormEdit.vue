@@ -11,7 +11,7 @@
 					@reset="onReset"
 				>
 					<b-row>
-						<b-col>
+						<b-col cols="7">
 							<!-- provedor de validação
 								regras: necessário escrever;
 								mínimo de três (3) caracteres;
@@ -57,7 +57,7 @@
 							>
 								<!-- label do cpf -->
 								<b-form-group
-									id="input-group-1"
+									id="input-group-2"
 									label="CPF:"
 									label-for="cpf"
 									class="mb-2"
@@ -68,9 +68,10 @@
 										v-model="form.cpf"
 										type="text"
 										:state="getValidationState(validationContext)"
+										@blur.native="handleCPF"
 										aria-describedby="cpf-live-feedback"
 										class="mt-1"
-										v-mask="['###.###.###-##', '##.###.###/####-##']"
+										v-mask="'###.###.###-##'"
 									></b-form-input>
 
 									<!-- feedback ao vivo do cpf -->
@@ -81,40 +82,57 @@
 							</validation-provider>
 						</b-col>
 						<b-col>
-							<!-- provedor de validação
-								regras: é necessario;
-								tem de ser um email
-							-->
-							<validation-provider
-								name="E-mail"
-								rules="required|email"
-								v-slot="validationContext"
+							<!-- label do celular -->
+							<b-form-group
+								id="input-group-3"
+								label="Telefone/Celular:"
+								label-for="telefone"
+								class="mb-2"
 							>
-								<!-- label do email -->
-								<b-form-group
-									id="input-group-2"
-									label="E-mail:"
-									label-for="email"
-									class="mb-2"
-								>
-									<!-- entrada do email -->
-									<b-form-input
-										id="email"
-										v-model="form.email"
-										type="email"
-										:state="getValidationState(validationContext)"
-										aria-describedby="email-live-feedback"
-										class="mt-1"
-									></b-form-input>
-									
-									<!-- feedback ao vivo do email -->
-									<b-form-invalid-feedback id="email-live-feedback">
-										{{ validationContext.errors[0] }}
-									</b-form-invalid-feedback>
-								</b-form-group>
-							</validation-provider>
+								<!-- entrada do telefone -->
+								<b-form-input
+									id="telefone"
+									v-model="form.telefone"
+									type="text"
+									v-mask="['(##) ####-####', '(##) #####-####']"
+									class="mt-1"
+								></b-form-input>
+							</b-form-group>
 						</b-col>
 					</b-row>
+
+					<!-- provedor de validação
+						regras: é necessario;
+						tem de ser um email
+					-->
+					<validation-provider
+						name="E-mail"
+						rules="required|email"
+						v-slot="validationContext"
+					>
+						<!-- label do email -->
+						<b-form-group
+							id="input-group-4"
+							label="E-mail:"
+							label-for="email"
+							class="mb-2"
+						>
+							<!-- entrada do email -->
+							<b-form-input
+								id="email"
+								v-model="form.email"
+								type="email"
+								:state="getValidationState(validationContext)"
+								aria-describedby="email-live-feedback"
+								class="mt-1"
+							></b-form-input>
+							
+							<!-- feedback ao vivo do email -->
+							<b-form-invalid-feedback id="email-live-feedback">
+								{{ validationContext.errors[0] }}
+							</b-form-invalid-feedback>
+						</b-form-group>
+					</validation-provider>
 
 					<!-- provedor de validação
 						regras: é necessario;
@@ -126,7 +144,7 @@
 					>
 						<!-- label do resumo da entrevista -->
 						<b-form-group
-							id="input-group-3"
+							id="input-group-5"
 							label="Resumo da entrevista:"
 							label-for="resumo_da_entrevista"
 							class="mb-2"
@@ -151,7 +169,7 @@
 					</validation-provider>
 
 					<b-row>
-						<b-col cols="2">
+						<b-col>
 
 							<!-- provedor de validação
 								regras: é necessario
@@ -163,7 +181,7 @@
 							>
 								<!-- label do cep -->
 								<b-form-group
-									id="input-group-4"
+									id="input-group-6"
 									label="CEP:"
 									label-for="cep"
 									class="mb-2"
@@ -199,7 +217,7 @@
 							>
 								<!-- label do cep -->
 								<b-form-group
-									id="input-group-5"
+									id="input-group-7"
 									label="Logradouro:"
 									label-for="logradouro1"
 									class="mb-2"
@@ -238,7 +256,7 @@
 							>
 								<!-- label da cidade -->
 								<b-form-group
-									id="input-group-6"
+									id="input-group-8"
 									label="Cidade:"
 									label-for="cidade"
 									class="mb-2"
@@ -273,7 +291,7 @@
 							>
 								<!-- label do estado  -->
 								<b-form-group
-									id="input-group-7"
+									id="input-group-9"
 									label="Estado:"
 									label-for="estado"
 									class="mb-2"
@@ -308,7 +326,7 @@
 							>
 								<!-- label do número -->
 								<b-form-group
-									id="input-group-8"
+									id="input-group-10"
 									label="Número:"
 									label-for="numero"
 									class="mb-2"
@@ -343,7 +361,7 @@
 							>
 								<!-- label do complemento -->
 								<b-form-group
-									id="input-group-9"
+									id="input-group-11"
 									label="Complemento:"
 									label-for="complemento"
 									class="mb-2"
@@ -377,6 +395,9 @@
 
 <script>
 	import Vue from 'vue'
+	import ValidarCPF from '../assets/js/validarCPF.js'
+
+	// importa a Navbar e transforma-a em componente
 	import Navbar from './Navbar.vue'
 
 	Vue.component('navbar', Navbar)
@@ -386,13 +407,18 @@
 			form: {},
 		}),
 		methods: {
+			// pega o estado de validação
 			getValidationState({ dirty, validated, valid = null}) {
 				return dirty || validated ? valid : null
 			},
+			// ao receber os dados
 			async onSubmit () {
+				// checar validez
 				const isValid = await this.$refs.observer.validate()
 
+				// se for inválido
 				if (!isValid){
+					// envia toast
 					this.$bvToast.toast('Há algo errado com o formulário! Está faltando algo?', {
 						title: 'Erro!',
 						variant: 'success',
@@ -400,27 +426,26 @@
 					})
 				}
 
+				// caso contrário, atualiza os dados
 				await this.$axios.put(
 					'/applicants/' + this.$route.params.id, 
 					this.form
 				)
-				.then((response) => {
-					if (response.statusText === 'OK') {
-						this.$bvToast.toast('Dados atualizados!', {
-							title: 'Sucesso!',
-							variant: 'success',
-							appendToast: false
-						})
-					} else {
-						this.$bvToast.toast('Não foi possível atualizar os dados!', {
-							title: 'Erro!',
-							variant: 'danger',
-							appendToast: false
-						})
-					}
+				.then(() => {
+					// envia toast de sucesso ao receber resposta
+					this.$bvToast.toast('Dados atualizados!', {
+						title: 'Sucesso!',
+						variant: 'success',
+						appendToast: false
+					})
 				})
-				.catch((error) => {
-					console.log(error)
+				.catch(() => {
+					// se der erro, envia toast de erro
+					this.$bvToast.toast('Não foi possível atualizar os dados!', {
+						title: 'Erro!',
+						variant: 'danger',
+						appendToast: false
+					})
 				})
 			},
 			onReset (event) {
@@ -430,52 +455,85 @@
 					this.show = true
 				})
 			},
+			// receber CEP
 			handleCEP(event) {
 				const cidade = document.getElementById('cidade')
 				const estado = document.getElementById('estado')
 				const logradouro = document.getElementById('logradouro1')
 				let cep = event.target.value
+				const validaCEP = /^[-0-9]{9}$/ // regex de CEP
 
-				if (cep != ''){
-					const validaCEP = /^[-0-9]{9}$/
-
-					if (validaCEP.test(cep)) {
-						this.$axios.get(
-							'https://viacep.com.br/ws/' + cep + '/json'
-						)
-						.then((response) => {
-							if (response.data.erro) {
-								this.$bvToast.toast('Escolha um CEP válido!', {
-									title: 'Erro!',
-									toaster: 'b-toaster-top-center',
-									solid: true,
-									variant: 'danger',
-									appendToast: false,
-								})
-							} else {
-								cidade.value = response.data.localidade
-								estado.value = response.data.uf
-								logradouro.value = response.data.logradouro
-							}
+				// se o regex identificar o CEP
+				if (validaCEP.test(cep)) {
+					// envia requisição à API do viacep
+					this.$axios.get(
+						'https://viacep.com.br/ws/' + cep + '/json'
+					)
+					.then((response) => {
+						// se der erro
+						if (response.data.erro) {
+							// envia toast de erro
+							this.$bvToast.toast('Escolha um CEP válido!', {
+								title: 'Erro!',
+								toaster: 'b-toaster-top-center',
+								solid: true,
+								variant: 'danger',
+								appendToast: false,
+							})
+						} else {
+							// caso contrário, atualiza as entradas
+							cidade.value = response.data.localidade
+							estado.value = response.data.uf
+							logradouro.value = response.data.logradouro
+						}
+					})
+					.catch(() => {
+						// se der erro na requisição, envia pro console o erro e manda toast
+						this.$bvToast.toast('Houve um erro na requisição! Verifique o console e chame o admin.', {
+							title: 'Erro!',
+							toaster: 'b-toaster-top-center',
+							solid: true,
+							variant: 'danger',
+							appendToast: false,
 						})
-						.catch((error) => {
-							console.log(error)
-						})
-					} else {
-						alert('Formato de CEP inválido!')
-					}
+					})
+				} else {
+					this.$bvToast.toast('Escolha um CEP válido!', {
+						title: 'Erro!',
+						toaster: 'b-toaster-top-center',
+						solid: true,
+						variant: 'danger',
+						appendToast: false,
+					})
 				}
 			},
+			// validar CPF
+			handleCPF(event) {
+				const cpf = event.target.value
 
+				if (!ValidarCPF(cpf)) {
+					this.$bvToast.toast('Escolha um CPF válido!', {
+						title: 'Erro!',
+						toaster: 'b-toaster-top-center',
+						solid: true,
+						variant: 'danger',
+						appendToast: false,
+					})
+				}
+			}
 		},
+		// quando criar o formulário
 		created() {
+			// verificar se o candidato existe
 			this.$axios.get('/applicants/' + this.$route.params.id)
 			.then((response) => {
-				this.form = response.data				
+				// se sim, completar o formulário
+				this.form = response.data
 			})
-			.catch((error) => {
+			// caso contrário
+			.catch(() => {
+				// redirecionar para /404
 				this.$router.push('/404')
-				console.log(error)
 			})
 		}
 	}
