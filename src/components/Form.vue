@@ -11,7 +11,7 @@
 					@reset="onReset"
 				>
 					<b-row>
-						<b-col>
+						<b-col cols="7">
 							<!-- provedor de validação
 								regras: necessário escrever;
 								mínimo de três (3) caracteres;
@@ -57,7 +57,7 @@
 							>
 								<!-- label do cpf -->
 								<b-form-group
-									id="input-group-1"
+									id="input-group-2"
 									label="CPF:"
 									label-for="cpf"
 									class="mb-2"
@@ -70,7 +70,7 @@
 										:state="getValidationState(validationContext)"
 										aria-describedby="cpf-live-feedback"
 										class="mt-1"
-										v-mask="['###.###.###-##', '##.###.###/####-##']"
+										v-mask="'###.###.###-##'"
 									></b-form-input>
 
 									<!-- feedback ao vivo do cpf -->
@@ -81,40 +81,57 @@
 							</validation-provider>
 						</b-col>
 						<b-col>
-							<!-- provedor de validação
-								regras: é necessario;
-								tem de ser um email
-							-->
-							<validation-provider
-								name="E-mail"
-								rules="required|email"
-								v-slot="validationContext"
+							<!-- label do celular -->
+							<b-form-group
+								id="input-group-3"
+								label="Telefone/Celular:"
+								label-for="telefone"
+								class="mb-2"
 							>
-								<!-- label do email -->
-								<b-form-group
-									id="input-group-2"
-									label="E-mail:"
-									label-for="email"
-									class="mb-2"
-								>
-									<!-- entrada do email -->
-									<b-form-input
-										id="email"
-										v-model="form.email"
-										type="email"
-										:state="getValidationState(validationContext)"
-										aria-describedby="email-live-feedback"
-										class="mt-1"
-									></b-form-input>
-									
-									<!-- feedback ao vivo do email -->
-									<b-form-invalid-feedback id="email-live-feedback">
-										{{ validationContext.errors[0] }}
-									</b-form-invalid-feedback>
-								</b-form-group>
-							</validation-provider>
+								<!-- entrada do telefone -->
+								<b-form-input
+									id="telefone"
+									v-model="form.telefone"
+									type="text"
+									v-mask="['(##) ####-####', '(##) #####-####']"
+									class="mt-1"
+								></b-form-input>
+							</b-form-group>
 						</b-col>
 					</b-row>
+
+					<!-- provedor de validação
+						regras: é necessario;
+						tem de ser um email
+					-->
+					<validation-provider
+						name="E-mail"
+						rules="required|email"
+						v-slot="validationContext"
+					>
+						<!-- label do email -->
+						<b-form-group
+							id="input-group-4"
+							label="E-mail:"
+							label-for="email"
+							class="mb-2"
+						>
+							<!-- entrada do email -->
+							<b-form-input
+								id="email"
+								v-model="form.email"
+								type="email"
+								:state="getValidationState(validationContext)"
+								aria-describedby="email-live-feedback"
+								class="mt-1"
+							></b-form-input>
+							
+							<!-- feedback ao vivo do email -->
+							<b-form-invalid-feedback id="email-live-feedback">
+								{{ validationContext.errors[0] }}
+							</b-form-invalid-feedback>
+						</b-form-group>
+					</validation-provider>
 
 					<!-- provedor de validação
 						regras: é necessario;
@@ -126,7 +143,7 @@
 					>
 						<!-- label do resumo da entrevista -->
 						<b-form-group
-							id="input-group-3"
+							id="input-group-5"
 							label="Resumo da entrevista:"
 							label-for="resumo_da_entrevista"
 							class="mb-2"
@@ -151,7 +168,7 @@
 					</validation-provider>
 
 					<b-row>
-						<b-col cols="2">
+						<b-col>
 
 							<!-- provedor de validação
 								regras: é necessario
@@ -163,7 +180,7 @@
 							>
 								<!-- label do cep -->
 								<b-form-group
-									id="input-group-4"
+									id="input-group-6"
 									label="CEP:"
 									label-for="cep"
 									class="mb-2"
@@ -199,7 +216,7 @@
 							>
 								<!-- label do cep -->
 								<b-form-group
-									id="input-group-5"
+									id="input-group-7"
 									label="Logradouro:"
 									label-for="logradouro1"
 									class="mb-2"
@@ -238,7 +255,7 @@
 							>
 								<!-- label da cidade -->
 								<b-form-group
-									id="input-group-6"
+									id="input-group-8"
 									label="Cidade:"
 									label-for="cidade"
 									class="mb-2"
@@ -273,7 +290,7 @@
 							>
 								<!-- label do estado  -->
 								<b-form-group
-									id="input-group-7"
+									id="input-group-9"
 									label="Estado:"
 									label-for="estado"
 									class="mb-2"
@@ -308,7 +325,7 @@
 							>
 								<!-- label do número -->
 								<b-form-group
-									id="input-group-8"
+									id="input-group-10"
 									label="Número:"
 									label-for="numero"
 									class="mb-2"
@@ -343,7 +360,7 @@
 							>
 								<!-- label do complemento -->
 								<b-form-group
-									id="input-group-9"
+									id="input-group-11"
 									label="Complemento:"
 									label-for="complemento"
 									class="mb-2"
