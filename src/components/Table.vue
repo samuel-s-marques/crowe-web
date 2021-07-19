@@ -98,8 +98,9 @@
 						size="sm"
 						class="mr-1"
 						@click="deletar(row.item)"
+						variant="danger"
 					>
-						<b-icon-trash-fill variant="danger"></b-icon-trash-fill>
+						<b-icon-trash-fill></b-icon-trash-fill>
 					</b-button>
 				</template>
 			</b-table>
