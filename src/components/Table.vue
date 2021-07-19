@@ -2,6 +2,7 @@
 	<div>
 		<navbar></navbar>
 		<b-container>
+			<h1>Consulta de dados</h1>
 			<b-table
 				id="minha-tabela"
 				:items="myProvider"
@@ -10,6 +11,7 @@
 				responsive="md"
 			>
 				<template #row-details="row">
+					<!-- card dos dados -->
 					<b-card>
 						<b-row class="mb-2">
 							<b-col sm="3" class="text-sm"><b>Nome: </b></b-col>
@@ -123,18 +125,22 @@
 					{ 
 						key: 'created_at',
 						label: 'Dia de cadastro',
+						// formatador que deixa legível a data
 						formatter: (item) => {
 							return moment(item.created_at).format('LL')
 						}
 					},
-					{ key: 'actions', label: 'Ações'},
+					{ key: 'actions', label: 'Ações', stickyColumn: true},
 				]
 			}
 		},
 		methods: {
+			// provedor de dados
 			myProvider (ctx, callback) {
+				// cliente envia requisição GET para o servidor
 				this.$axios.get('/applicants')
 				.then(response => {
+					// e então manda os dados como itens para callback, que mostra na tabela
 					const items = response.data
 					callback(items)
 				})
