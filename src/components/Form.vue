@@ -437,7 +437,8 @@
 						appendToast: false
 					})
 				})
-				.catch(() => {
+				.catch((error) => {
+					console.log(error)
 					// se der erro, envia toast de erro
 					this.$bvToast.toast('Não foi possível enviar os dados!', {
 						title: 'Erro!',
@@ -485,9 +486,8 @@
 							logradouro.value = response.data.logradouro
 						}
 					})
-					.catch((error) => {
+					.catch(() => {
 						// se der erro na requisição, envia pro console o erro e manda toast
-						console.log(error)
 						this.$bvToast.toast('Houve um erro na requisição! Verifique o console e chame o admin.', {
 							title: 'Erro!',
 							toaster: 'b-toaster-top-center',
