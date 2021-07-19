@@ -1,4 +1,7 @@
 # crowe-web
+
+[🇬🇧 - English](./README.en.md)
+
 Desafio da Crowe para candidatos. Interface Web.
 
 A Crowe está iniciando um novo processo seletivo e solicitou ao setor de Tecnologia a criação de um formulário para cadastrar os candidatos que participarem desse processo seletivo.
@@ -76,7 +79,7 @@ Acesse a pasta do projeto no terminal/cmd
 $ cd crowe-web
 ```
 
-Instale as dependências com **yarn** ou **npm install**
+Instale as dependências com **npm install**
 ```bash
 $ npm install
 ```
@@ -102,7 +105,7 @@ Acesse a pasta do projeto no terminal/cmd
 $ cd crowe-api
 ```
 
-Instale as dependências com **yarn** ou **npm install**
+Instale as dependências com **npm install**
 ```bash
 $ npm install
 ```
@@ -116,7 +119,7 @@ Após gerar, copie o valor dado e cole na chave APP_KEY, do .env.example.
 PORT=3333
 HOST=0.0.0.0
 NODE_ENV=development
-APP_KEY=Cole aqui!
+APP_KEY=**Cole aqui!**
 DB_CONNECTION=sqlite
 ```
 E, então, remova o sufixo .example do arquivo.
