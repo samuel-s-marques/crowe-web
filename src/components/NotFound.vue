@@ -9,9 +9,3 @@
 		</b-row>
 	</b-container>
 </template>
-
-<script>
-	export default {
-
-	}
-</script>

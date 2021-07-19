@@ -20,12 +20,6 @@
 	</div>
 </template>
 
-<script>
-	export default {
-
-	}
-</script>
-
 <style>
 	#navbar {
 		margin-bottom: 60px;
