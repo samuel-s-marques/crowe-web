@@ -19,9 +19,9 @@ Este repositório guarda o front-end do projeto. Baixe e instale o projeto [crow
 <!--te-->
 
 ## Imagens
-| Cadastro de dados | Tabela de dados |
-|:-----------------:|:---------------:|
-| ![cadastro de dados](cadastro.png) | ![tabela de dados](tabela.png)
+| Cadastro de dados | Tabela de dados | Visualização do candidato | Confirmação de exclusão 
+|:-----------------:|:---------------:|:-----------------:|:---------------:|
+| ![cadastro de dados](cadastro.png) | ![tabela de dados](tabela.png) | ![Visualização de candidato](visualizacao_dados.png) | ![Confirmar exclusão](confirmar_delete.png)
 
 ## Features
 - [ ] Cadastro de candidatos
@@ -43,7 +43,7 @@ Este repositório guarda o front-end do projeto. Baixe e instale o projeto [crow
 - [x] Listagem
   - [x] Paginação
   - [x] Sorteável
-  - [ ] Barra de pesquisa
+  - [x] Barra de pesquisa
 - [x] Exclusão
   - [x] Confirmar exclusão
 - [x] Exibição
@@ -85,6 +85,9 @@ Execute a aplicação em modo de desenvolvimento
 ```bash
 $ npm run serve
 ```
+O cliente iniciará na porta :8080 - acesse [http://localhost:8080](http://localhost:8080).
+
+-----
 
 ### Rodando o back-end (servidor)
 
@@ -104,12 +107,16 @@ Instale as dependências com **yarn** ou **npm install**
 $ npm install
 ```
 
-Defina no arquivo .env.example as configurações:
+Defina no arquivo .env.example as configurações. Para obter o valor da chave APP_KEY, você terá de gerar através do comando
+```bash
+$ node ace generate:key
+```
+Após gerar, copie o valor dado e cole na chave APP_KEY, do .env.example.
 ```cl
 PORT=3333
 HOST=0.0.0.0
 NODE_ENV=development
-APP_KEY=nomeDaAplicação
+APP_KEY=Cole aqui!
 DB_CONNECTION=sqlite
 ```
 E, então, remova o sufixo .example do arquivo.
@@ -119,7 +126,7 @@ Execute a aplicação em modo de desenvolvimento
 $ npm run dev
 ```
 
-O cliente iniciará na porta :8080 - acesse [http://localhost:8080](http://localhost:8080).
+O servidor iniciará na porta :3333.
 
 ## Licença
 Esse projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
