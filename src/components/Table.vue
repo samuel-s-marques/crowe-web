@@ -4,6 +4,55 @@
 		<b-container>
 			<h1>Consulta de dados</h1>
 
+			<b-row>
+				<b-col lg="6" class="my-1">
+					<b-form-group
+						label="Filtrar"
+						label-for="filter-input"
+						label-cols-sm="3"
+						label-align-sm="right"
+						label-size="sm"
+						class="mb-0"
+					>
+						<b-input-group size="sm">
+							<b-form-input
+								id="filter-input"
+								v-model="filter"
+								type="search"
+								placeholder="Escreva para pesquisar"
+							></b-form-input>
+
+							<b-input-group-append>
+								<b-button :disabled="!filter" @click="filter = ''">Limpar</b-button>
+							</b-input-group-append>
+						</b-input-group>
+					</b-form-group>
+				</b-col>
+
+				<b-col lg="6" class="my-1">
+					<b-form-group
+						v-model="sortDirection"
+						label="Filtrar sobre"
+						description="Deixe tudo desmarcado para filtrar todos os dados"
+						label-cols-sm="3"
+						label-align-sm="right"
+						label-size="sm"
+						class="mb-0"
+						v-slot="{ ariaDescribedby }"
+					>
+						<b-form-checkbox-group
+							v-model="filterOn"
+							:aria-describedby="ariaDescribedby"
+							class="mt-1"
+						>
+							<b-form-checkbox value="nome">Nome</b-form-checkbox>
+							<b-form-checkbox value="email">E-mail</b-form-checkbox>
+							<b-form-checkbox value="created_at">Dia de cadastro</b-form-checkbox>
+						</b-form-checkbox-group>
+					</b-form-group>
+				</b-col>
+			</b-row>
+
 			<!-- componente da tabela -->
 			<b-table
 				id="minha-tabela"
@@ -14,6 +63,9 @@
 				:per-page="perPage"
 				:sort-by.sync="sortBy"
 				:sort-desc.sync="sortDesc"
+				:filter="filter"
+				:filter-included-fields="filterOn"
+				@filtered="onFiltered"
 				responsive="md"
 			>
 				<template #row-details="row">
@@ -117,7 +169,7 @@
 				v-model="currentPage"
 				aria-controls="minha-tabela"
 				:per-page="perPage"
-				:total-rows="rows"
+				:total-rows="totalRows"
 			></b-pagination>
 		</b-container>
 	</div>
@@ -141,6 +193,9 @@
 				currentPage: 1,
 				perPage: 10,
 				items: this.myProvider,
+				filter: null,
+				totalRows: 1,
+				filterOn: [],
 				fields: [
 					{ key: 'id', stickyColumn: true, isRowHeader: true, label: 'ID', sortable: true },
 					{ key: 'nome' },
@@ -154,7 +209,8 @@
 						// formatador que deixa legível a data
 						formatter: (item) => {
 							return moment(item.created_at).format('LL')
-						}
+						},
+						filterByFormatted: true
 					},
 					{ key: 'actions', label: 'Ações', stickyColumn: true},
 				],
@@ -220,14 +276,16 @@
 				.catch(err => {
 					console.log(err)
 				})
+			},
+			onFiltered (filteredItems) {
+				this.totalRows = filteredItems.length
+				this.currentPage = 1
 			}
 		},
-		computed: {
-			rows() {
-				return this.items.length
+		mounted() {
+				this.totalRows = this.items.length
 			}
 		}
-	}
 </script>
 
 <style>
