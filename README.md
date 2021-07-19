@@ -68,7 +68,7 @@ Antes de começar, você vai precisar ter instalado em sua máquina o [Git](http
 
 ### Rodando o front-end (cliente)
 
-Baixe este repositório (necessário extrair os arquivos), seja clicando [aqui](https://github.com/samuel-s-marques/crowe-web/archive/refs/heads/master.zip) ou clonando com:
+Baixe este repositório (necessário extrair os arquivos), seja clicando [aqui](https://github.com/samuel-s-marques/crowe-web/archive/refs/heads/master.zip) ou clonando no seu terminal/cmd com:
 
 ```bash
 $ git clone https://github.com/samuel-s-marques/crowe-web
@@ -94,7 +94,7 @@ O cliente iniciará na porta :8080 - acesse [http://localhost:8080](http://local
 
 ### Rodando o back-end (servidor)
 
-Baixe o repositório do back-end (necessário extrair os arquivos), seja clicando [aqui](https://github.com/samuel-s-marques/crowe-api/archive/refs/heads/master.zip) ou clonando com:
+Baixe o repositório do back-end (necessário extrair os arquivos), seja clicando [aqui](https://github.com/samuel-s-marques/crowe-api/archive/refs/heads/master.zip) ou clonando no seu terminal/cmd com:
 
 ```bash
 $ git clone https://github.com/samuel-s-marques/crowe-api
