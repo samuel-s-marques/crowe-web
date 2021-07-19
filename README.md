@@ -40,6 +40,7 @@ Este repositório guarda o front-end do projeto. Baixe e instale o projeto [crow
 - [x] Cadastro
   - [x] Adicionar CPF
 - [x] Listagem
+  - [ ] Paginação
 - [x] Exclusão
   - [x] Confirmar exclusão
 - [x] Exibição
