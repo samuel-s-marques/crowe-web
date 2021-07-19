@@ -3,6 +3,8 @@
 		<navbar></navbar>
 		<b-container>
 			<h1>Consulta de dados</h1>
+
+			<!-- componente da tabela -->
 			<b-table
 				id="minha-tabela"
 				:items="items"
@@ -10,6 +12,8 @@
 				:hover="true"
 				:current-page="currentPage"
 				:per-page="perPage"
+				:sort-by.sync="sortBy"
+				:sort-desc.sync="sortDesc"
 				responsive="md"
 			>
 				<template #row-details="row">
@@ -115,8 +119,6 @@
 				:per-page="perPage"
 				:total-rows="rows"
 			></b-pagination>
-
-			<p class="mt-3">Página atual: {{ currentPage }}</p>
 		</b-container>
 	</div>
 </template>
@@ -134,11 +136,13 @@
 		data() {
 			// campos mostrados na tabela
 			return {
+				sortBy: 'id',
+				sortDesc: false,
 				currentPage: 1,
 				perPage: 10,
 				items: this.myProvider,
 				fields: [
-					{ key: 'id', stickyColumn: true, isRowHeader: true, label: 'ID' },
+					{ key: 'id', stickyColumn: true, isRowHeader: true, label: 'ID', sortable: true },
 					{ key: 'nome' },
 					{ key: 'email', 'label': 'E-mail'},
 					{ key: 'cidade' },
@@ -160,19 +164,6 @@
 			// provedor de dados
 			myProvider (ctx) {
 				const params = '?page=' + ctx.currentPage
-
-				/*
-				// cliente envia requisição GET para o servidor
-				this.$axios.get('/applicants' + params)
-				.then(response => {
-					// e então manda os dados como itens para callback, que mostra na tabela
-					const items = response.data
-					callback(items.data)
-				})
-				.catch(() => {
-					callback([])
-				})
-				*/
 				this.$axios.get('/applicants' + params)
 				.then(response => {
 					this.items = response.data.data
