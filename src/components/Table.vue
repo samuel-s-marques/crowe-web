@@ -5,9 +5,11 @@
 			<h1>Consulta de dados</h1>
 			<b-table
 				id="minha-tabela"
-				:items="myProvider"
+				:items="items"
 				:fields="fields"
 				:hover="true"
+				:current-page="currentPage"
+				:per-page="perPage"
 				responsive="md"
 			>
 				<template #row-details="row">
@@ -74,6 +76,7 @@
 					{{ row.value }}
 				</template>
 
+				<!-- botões das ações -->
 				<template #cell(actions)="row">
 					<b-button
 						id="table-button"
@@ -104,6 +107,16 @@
 					</b-button>
 				</template>
 			</b-table>
+
+			<!-- componente de paginação -->
+			<b-pagination
+				v-model="currentPage"
+				aria-controls="minha-tabela"
+				:per-page="perPage"
+				:total-rows="rows"
+			></b-pagination>
+
+			<p class="mt-3">Página atual: {{ currentPage }}</p>
 		</b-container>
 	</div>
 </template>
@@ -121,6 +134,9 @@
 		data() {
 			// campos mostrados na tabela
 			return {
+				currentPage: 1,
+				perPage: 10,
+				items: this.myProvider,
 				fields: [
 					{ key: 'id', stickyColumn: true, isRowHeader: true, label: 'ID' },
 					{ key: 'nome' },
@@ -137,24 +153,36 @@
 						}
 					},
 					{ key: 'actions', label: 'Ações', stickyColumn: true},
-				]
+				],
 			}
 		},
 		methods: {
 			// provedor de dados
-			myProvider (ctx, callback) {
+			myProvider (ctx) {
+				const params = '?page=' + ctx.currentPage
+
+				/*
 				// cliente envia requisição GET para o servidor
-				this.$axios.get('/applicants')
+				this.$axios.get('/applicants' + params)
 				.then(response => {
 					// e então manda os dados como itens para callback, que mostra na tabela
 					const items = response.data
-					callback(items)
+					callback(items.data)
 				})
 				.catch(() => {
 					callback([])
 				})
+				*/
+				this.$axios.get('/applicants' + params)
+				.then(response => {
+					this.items = response.data.data
+				})
+				.catch(() => {
+					this.items = []
+				})
 			},
 			info (item) {
+				// pega o id do item e redireciona o usuário à rota /editar/ + o id escolhido
 				this.$router.push('/editar/' + item.id)
 			},
 			deletar (item) {
@@ -201,7 +229,11 @@
 				.catch(err => {
 					console.log(err)
 				})
-
+			}
+		},
+		computed: {
+			rows() {
+				return this.items.length
 			}
 		}
 	}
