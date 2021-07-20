@@ -290,6 +290,7 @@
 		},
 		computed: {
 			rows() {
+				if (process.env.NODE_ENV === 'production') return 20
 				return this.items.length
 			}
 		}
