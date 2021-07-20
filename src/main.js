@@ -40,7 +40,6 @@ localize('pt_BR', pt_BR)
 Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('ValidationObserver', ValidationObserver)
 
-Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
 new Vue({
