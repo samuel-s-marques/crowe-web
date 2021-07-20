@@ -215,6 +215,7 @@
 		methods: {
 			// provedor de dados
 			myProvider (ctx) {
+				// verifica se está em modo de desenvolvimento
 				if (process.env.NODE_ENV === 'development'){
 					const params = '?page=' + ctx.currentPage
 					axios.get('/applicants' + params)
@@ -224,7 +225,10 @@
 					.catch(() => {
 						this.items = []
 					})
+
+				// se não estiver
 				} else {
+					// envia requisições ao placeholder de json para pegar dados
 					axios.get('https://my-json-server.typicode.com/samuel-s-marques/crowe-json-placeholder/db')
 					.then(response => {
 						this.items = response.data.data
