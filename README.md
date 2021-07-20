@@ -8,6 +8,8 @@ A Crowe está iniciando um novo processo seletivo e solicitou ao setor de Tecnol
 
 Este repositório guarda o front-end do projeto. Baixe e instale o projeto [crowe-api](https://github.com/samuel-s-marques/crowe-api) para ter acesso ao back-end.
 
+**Você pode acessar a página de demonstração [aqui](https://crowe-web.vercel.app/). Mas ela não usa back-end, apenas faz requisições ao [placeholder dos dados](https://my-json-server.typicode.com/samuel-s-marques/crowe-json-placeholder), em JSON, então, não há como atualizar, enviar ou apagar dados.**
+
 <!--ts-->
 - [crowe-web](#crowe-web)
 	- [Imagens](#imagens)
