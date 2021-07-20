@@ -215,14 +215,25 @@
 		methods: {
 			// provedor de dados
 			myProvider (ctx) {
-				const params = '?page=' + ctx.currentPage
-				axios.get('/applicants' + params)
-				.then(response => {
-					this.items = response.data.data
-				})
-				.catch(() => {
-					this.items = []
-				})
+				if (process.env.NODE_ENV === 'development'){
+					const params = '?page=' + ctx.currentPage
+					axios.get('/applicants' + params)
+					.then(response => {
+						this.items = response.data.data
+					})
+					.catch(() => {
+						this.items = []
+					})
+				} else {
+					axios.get('https://my-json-server.typicode.com/samuel-s-marques/crowe-json-placeholder/db')
+					.then(response => {
+						this.items = response.data.data
+					})
+					.catch(() => {
+						this.items = []
+					})
+				}
+
 			},
 			info (item) {
 				// pega o id do item e redireciona o usuário à rota /editar/ + o id escolhido
