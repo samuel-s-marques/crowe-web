@@ -123,6 +123,7 @@
 								v-model="form.email"
 								type="email"
 								:state="getValidationState(validationContext)"
+								@blur.native="handleEmail"
 								aria-describedby="email-live-feedback"
 								class="mt-1"
 							></b-form-input>
@@ -510,6 +511,7 @@
 			// validar CPF
 			handleCPF(event) {
 				const cpf = event.target.value
+				const params = "?query=cpf&value=" + cpf
 
 				if (!ValidarCPF(cpf)) {
 					this.$bvToast.toast('Escolha um CPF válido!', {
@@ -520,6 +522,33 @@
 						appendToast: false,
 					})
 				}
+
+				this.$axios.get('/applicants' + params)
+				.then(() => {
+					this.$bvToast.toast('Este CPF já está cadastrado!', {
+						title: 'Erro!',
+						toaster: 'b-toaster-top-center',
+						solid: true,
+						variant: 'danger',
+						appendToast: false,
+					})
+				})
+			},
+			// verificar se e-mail ja esta cadastrado
+			handleEmail(event) {
+				const email = event.target.value
+				const params = "?query=email&value=" + email
+
+				this.$axios.get('/applicants' + params)
+				.then(() => {
+					this.$bvToast.toast('Este e-mail já está cadastrado!', {
+						title: 'Erro!',
+						toaster: 'b-toaster-top-center',
+						solid: true,
+						variant: 'danger',
+						appendToast: false,
+					})
+				})
 			}
 		}
 	}
