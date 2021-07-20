@@ -31,7 +31,6 @@
 
 				<b-col lg="6" class="my-1">
 					<b-form-group
-						v-model="sortDirection"
 						label="Filtrar sobre"
 						description="Deixe tudo desmarcado para filtrar todos os dados"
 						label-cols-sm="3"
@@ -61,8 +60,6 @@
 				:hover="true"
 				:current-page="currentPage"
 				:per-page="perPage"
-				:sort-by.sync="sortBy"
-				:sort-desc.sync="sortDesc"
 				:filter="filter"
 				:filter-included-fields="filterOn"
 				@filtered="onFiltered"
@@ -169,7 +166,7 @@
 				v-model="currentPage"
 				aria-controls="minha-tabela"
 				:per-page="perPage"
-				:total-rows="totalRows"
+				:total-rows="rows"
 			></b-pagination>
 		</b-container>
 	</div>
@@ -179,6 +176,7 @@
 	import Vue from 'vue'
 	import Navbar from './Navbar.vue'
 	import moment from 'moment'
+	import axios from 'axios'
 
 	moment.locale('pt')
 
@@ -188,13 +186,10 @@
 		data() {
 			// campos mostrados na tabela
 			return {
-				sortBy: 'id',
-				sortDesc: false,
 				currentPage: 1,
 				perPage: 10,
 				items: this.myProvider,
 				filter: null,
-				totalRows: 1,
 				filterOn: [],
 				fields: [
 					{ key: 'id', stickyColumn: true, isRowHeader: true, label: 'ID', sortable: true },
@@ -210,7 +205,8 @@
 						formatter: (item) => {
 							return moment(item.created_at).format('LL')
 						},
-						filterByFormatted: true
+						filterByFormatted: true,
+						sortable: true
 					},
 					{ key: 'actions', label: 'Ações', stickyColumn: true},
 				],
@@ -220,7 +216,7 @@
 			// provedor de dados
 			myProvider (ctx) {
 				const params = '?page=' + ctx.currentPage
-				this.$axios.get('/applicants' + params)
+				axios.get('/applicants' + params)
 				.then(response => {
 					this.items = response.data.data
 				})
@@ -247,7 +243,7 @@
 					// se a resposta do modal for SIM
 					if (value === true) {
 						// então é enviado requisição para deletar o candidato
-						this.$axios.delete('/applicants/' + item.id)
+						axios.delete('/applicants/' + item.id)
 						.then(response => {
 							if (response.statusText === 'OK') {
 								// força refresh na tabela
@@ -277,15 +273,16 @@
 					console.log(err)
 				})
 			},
-			onFiltered (filteredItems) {
-				this.totalRows = filteredItems.length
+			onFiltered () {
 				this.currentPage = 1
 			}
 		},
-		mounted() {
-				this.totalRows = this.items.length
+		computed: {
+			rows() {
+				return this.items.length
 			}
 		}
+	}
 </script>
 
 <style>
