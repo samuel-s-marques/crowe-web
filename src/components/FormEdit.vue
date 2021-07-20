@@ -560,6 +560,15 @@
 				// redirecionar para /404
 				this.$router.push('/404')
 			})
+		},
+		mounted() {
+			if (process.env.NODE_ENV === 'production') {
+				this.$bvToast.toast('Saiba que esta página é apenas para demonstração, portanto, não terá como cadastrar ou editar dados.', {
+					title: 'Aviso!',
+					variant: 'warning',
+					appendToast: false
+				})
+			}
 		}
 	}
 </script>
