@@ -52,7 +52,7 @@
 							-->
 							<validation-provider
 								name="CPF"
-								rules="required"
+								rules="required|cpf|cpf_exists"
 								v-slot="validationContext"
 							>
 								<!-- label do cpf -->
@@ -68,7 +68,6 @@
 										v-model="form.cpf"
 										type="text"
 										:state="getValidationState(validationContext)"
-										@blur.native="handleCPF"
 										aria-describedby="cpf-live-feedback"
 										class="mt-1"
 										v-mask="'###.###.###-##'"
@@ -85,7 +84,7 @@
 							<!-- label do celular -->
 							<b-form-group
 								id="input-group-3"
-								label="Telefone/Celular:"
+								label="Telefone (opcional):"
 								label-for="telefone"
 								class="mb-2"
 							>
@@ -107,7 +106,7 @@
 					-->
 					<validation-provider
 						name="E-mail"
-						rules="required|email"
+						rules="required|email|email_exists"
 						v-slot="validationContext"
 					>
 						<!-- label do email -->
@@ -123,7 +122,6 @@
 								v-model="form.email"
 								type="email"
 								:state="getValidationState(validationContext)"
-								@blur.native="handleEmail"
 								aria-describedby="email-live-feedback"
 								class="mt-1"
 							></b-form-input>
@@ -396,16 +394,56 @@
 
 <script>
 	import Vue from 'vue'
+	import { extend } from 'vee-validate'
 	import ValidarCPF from '../assets/js/validarCPF.js'
+	import axios from 'axios'
 
 	// importa a Navbar e transforma-a em componente
 	import Navbar from './Navbar.vue'
 
 	Vue.component('navbar', Navbar)
 
+	// cria uma nova regra chamada email_exists
+	extend('email_exists', {
+		// valida o e-mail recebendo-o e enviando uma requisição ao servidor
+		validate: (value) => new Promise((resolve) => {
+			axios.get(`/applicants?query=email&value=${value}`).then(response => {
+				if (response.status === 200) resolve(false)
+				else resolve(true)
+			})
+		}),
+		// se o email existir, mostra uma mensagem de erro:
+		message: 'Este e-mail já foi registrado.'
+	})
+	// cria uma nova regra chamada cpf_exists
+	extend('cpf_exists', {
+		// a regra verifica se o CPF já foi registrado
+		validate: (value) => new Promise((resolve) => {
+			axios.get(`/applicants?query=cpf&value=${value}`).then(response => {
+				if (response.status === 200) resolve(false)
+				else resolve(true)
+			})
+		}),
+		// se for, mostra a mensagem:
+		message: 'Este CPF já foi registrado.'
+	})
+	// cria uma nova regra chamada cpf
+	extend('cpf', {
+		// a regra valida se o CPF é verdadeiro
+		validate(value) {
+			if (!ValidarCPF(value)) {
+				return false
+			}
+
+			return true
+		},
+		// se não for, mostra a mensagem:
+		message: 'Este CPF é inválido.'
+	})
+
 	export default {
 		data: () => ({
-			form: {},
+			form: {}
 		}),
 		methods: {
 			// pega o estado de validação
@@ -428,7 +466,7 @@
 				}
 
 				// caso contrário, envia os dados
-				await this.$axios.post(
+				await axios.post(
 					'/applicants/new', 
 					this.form
 				)
@@ -467,7 +505,7 @@
 				// se o regex identificar o CEP
 				if (validaCEP.test(cep)) {
 					// envia requisição à API do viacep
-					this.$axios.get(
+					axios.get(
 						'https://viacep.com.br/ws/' + cep + '/json'
 					)
 					.then((response) => {
@@ -513,6 +551,8 @@
 				const cpf = event.target.value
 				const params = "?query=cpf&value=" + cpf
 
+				console.log(this.fields.cpf)
+
 				if (!ValidarCPF(cpf)) {
 					this.$bvToast.toast('Escolha um CPF válido!', {
 						title: 'Erro!',
@@ -521,35 +561,20 @@
 						variant: 'danger',
 						appendToast: false,
 					})
+				} else {
+					axios.get('/applicants' + params)
+					.then(() => {
+						this.$bvToast.toast('Este CPF já está cadastrado!', {
+							title: 'Erro!',
+							toaster: 'b-toaster-top-center',
+							solid: true,
+							variant: 'danger',
+							appendToast: false,
+						})
+					})
 				}
 
-				this.$axios.get('/applicants' + params)
-				.then(() => {
-					this.$bvToast.toast('Este CPF já está cadastrado!', {
-						title: 'Erro!',
-						toaster: 'b-toaster-top-center',
-						solid: true,
-						variant: 'danger',
-						appendToast: false,
-					})
-				})
 			},
-			// verificar se e-mail ja esta cadastrado
-			handleEmail(event) {
-				const email = event.target.value
-				const params = "?query=email&value=" + email
-
-				this.$axios.get('/applicants' + params)
-				.then(() => {
-					this.$bvToast.toast('Este e-mail já está cadastrado!', {
-						title: 'Erro!',
-						toaster: 'b-toaster-top-center',
-						solid: true,
-						variant: 'danger',
-						appendToast: false,
-					})
-				})
-			}
 		}
 	}
 </script>
