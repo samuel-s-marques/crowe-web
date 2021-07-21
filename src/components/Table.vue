@@ -55,16 +55,25 @@
 			<!-- componente da tabela -->
 			<b-table
 				id="minha-tabela"
+				ref="minha_tabela"
 				:items="items"
 				:fields="fields"
 				:hover="true"
 				:current-page="currentPage"
 				:per-page="perPage"
 				:filter="filter"
+				:busy="isBusy"
 				:filter-included-fields="filterOn"
 				@filtered="onFiltered"
 				responsive="md"
 			>
+				<template #table-busy>
+					<div class="text-center text-danger my-2">
+						<b-spinner class="align-middle"></b-spinner>
+						<strong>Carregando...</strong>
+					</div>
+				</template>
+
 				<template #row-details="row">
 					<!-- card dos dados -->
 					<b-card>
@@ -190,6 +199,7 @@
 				perPage: 10,
 				items: this.myProvider,
 				filter: null,
+				isBusy: false,
 				filterOn: [],
 				fields: [
 					{ key: 'id', stickyColumn: true, isRowHeader: true, label: 'ID', sortable: true },
@@ -217,15 +227,17 @@
 			myProvider (ctx) {
 				// verifica se está em modo de desenvolvimento
 				if (process.env.NODE_ENV === 'development'){
+					this.isBusy = true
 					const params = '?page=' + ctx.currentPage
 					axios.get('/applicants' + params)
 					.then(response => {
+						this.isBusy = false
 						this.items = response.data.data
 					})
 					.catch(() => {
+						this.isBusy = false
 						this.items = []
 					})
-
 				// se não estiver
 				} else {
 					// envia requisições ao placeholder de json para pegar dados
@@ -262,8 +274,9 @@
 						.then(response => {
 							if (response.statusText === 'OK') {
 								// força refresh na tabela
+								this.$refs.minha_tabela.refresh()
 								this.$root.$emit('bv::refresh::table', 'minha-tabela')
-		
+
 								// emite um toast/notificação de sucesso
 								this.$bvToast.toast('Candidato apagado!', {
 									title: 'Sucesso!',
