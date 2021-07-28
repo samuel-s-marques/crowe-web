@@ -2,6 +2,8 @@
 
 [🇬🇧 - English](./README.en.md)
 
+[![wakatime](https://wakatime.com/badge/github/samuel-s-marques/crowe-web.svg)](https://wakatime.com/badge/github/samuel-s-marques/crowe-web)
+
 Desafio da Crowe para candidatos. Interface Web.
 
 A Crowe está iniciando um novo processo seletivo e solicitou ao setor de Tecnologia a criação de um formulário para cadastrar os candidatos que participarem desse processo seletivo.
